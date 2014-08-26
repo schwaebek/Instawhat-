@@ -24,12 +24,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    
     photos = [@[]mutableCopy];
 	// Do any additional setup after loading the view, typically from a nib.
     imagePicker = [[UIImagePickerController alloc]init];
     imagePicker.sourceType= UIImagePickerControllerSourceTypeCamera;
     imagePicker.view.frame = self.view.frame;
-    imagePicker.showsCameraControls = NO;
+    imagePicker.showsCameraControls = YES;
     imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     imagePicker.delegate = self;
     [self.view addSubview:imagePicker.view];
@@ -42,6 +44,7 @@
     takePictureButton.backgroundColor = [UIColor blackColor];
     [takePictureButton addTarget:self action:@selector(takePicture) forControlEvents:UIControlEventTouchUpInside];
     //[self.view addSubview:takePictureButton];
+    
     
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize = CGSizeMake(100, 100);
@@ -96,12 +99,29 @@
     // push viewcontroller
     [self showFilterWithImage:[UIImage imageWithCGImage:representation.fullResolutionImage]];
 }
+- (UIImage *)normalizedImage:(UIImage*)normalImage
+{
+    if (normalImage.imageOrientation == UIImageOrientationUp) return normalImage;
+    
+    UIGraphicsBeginImageContextWithOptions(normalImage.size, NO, normalImage.scale);
+    [normalImage drawInRect:(CGRect){0, 0, normalImage.size}];
+    UIImage * normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return normalizedImage;
+}
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    UIImage * fixedImage = [self normalizedImage:info[UIImagePickerControllerOriginalImage]];
+    
 //    UIImageView * imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
 //    imageView.image= info [UIImagePickerControllerOriginalImage];
 //    [self.view addSubview:imageView];
-    [self showFilterWithImage:info[UIImagePickerControllerOriginalImage]];
+    [self showFilterWithImage: fixedImage];
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBar.hidden = YES; 
 }
 -(void)showFilterWithImage:(UIImage *)image
 {
@@ -116,6 +136,10 @@
     // push viewcontroller
     // Dispose of any resources that can be recreated.
 }
+
+
+
+
 
 
 @end

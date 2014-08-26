@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		27515E9419AB7AC6004337DC /* IWAFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27515E9319AB7AC6004337DC /* IWAFilterViewController.m */; };
+		2791BC9619ACD1C40019AFFD /* IWAChosenTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791BC9519ACD1C40019AFFD /* IWAChosenTableViewController.m */; };
+		2791BCA219AD02460019AFFD /* IWAChosenFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2791BCA119AD02460019AFFD /* IWAChosenFilterViewController.m */; };
 		27D9C61019A628FA00E15233 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D9C60F19A628FA00E15233 /* Foundation.framework */; };
 		27D9C61219A628FA00E15233 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D9C61119A628FA00E15233 /* CoreGraphics.framework */; };
 		27D9C61419A628FA00E15233 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27D9C61319A628FA00E15233 /* UIKit.framework */; };
@@ -37,6 +39,10 @@
 /* Begin PBXFileReference section */
 		27515E9219AB7AC6004337DC /* IWAFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWAFilterViewController.h; sourceTree = "<group>"; };
 		27515E9319AB7AC6004337DC /* IWAFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWAFilterViewController.m; sourceTree = "<group>"; };
+		2791BC9419ACD1C40019AFFD /* IWAChosenTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IWAChosenTableViewController.h; path = "Instawhat?/IWAChosenTableViewController.h"; sourceTree = "<group>"; };
+		2791BC9519ACD1C40019AFFD /* IWAChosenTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IWAChosenTableViewController.m; path = "Instawhat?/IWAChosenTableViewController.m"; sourceTree = "<group>"; };
+		2791BCA019AD02460019AFFD /* IWAChosenFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWAChosenFilterViewController.h; sourceTree = "<group>"; };
+		2791BCA119AD02460019AFFD /* IWAChosenFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWAChosenFilterViewController.m; sourceTree = "<group>"; };
 		27D9C60C19A628FA00E15233 /* Instawhat?.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Instawhat?.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		27D9C60F19A628FA00E15233 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		27D9C61119A628FA00E15233 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -85,6 +91,8 @@
 		27D9C60319A628FA00E15233 = {
 			isa = PBXGroup;
 			children = (
+				2791BC9419ACD1C40019AFFD /* IWAChosenTableViewController.h */,
+				2791BC9519ACD1C40019AFFD /* IWAChosenTableViewController.m */,
 				27D9C61519A628FA00E15233 /* Instawhat? */,
 				27D9C63419A628FA00E15233 /* Instawhat?Tests */,
 				27D9C60E19A628FA00E15233 /* Frameworks */,
@@ -120,6 +128,8 @@
 				27D9C62119A628FA00E15233 /* Main.storyboard */,
 				27D9C62419A628FA00E15233 /* IWAViewController.h */,
 				27D9C62519A628FA00E15233 /* IWAViewController.m */,
+				2791BCA019AD02460019AFFD /* IWAChosenFilterViewController.h */,
+				2791BCA119AD02460019AFFD /* IWAChosenFilterViewController.m */,
 				27515E9219AB7AC6004337DC /* IWAFilterViewController.h */,
 				27515E9319AB7AC6004337DC /* IWAFilterViewController.m */,
 				27D9C62719A628FA00E15233 /* Images.xcassets */,
@@ -255,9 +265,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2791BC9619ACD1C40019AFFD /* IWAChosenTableViewController.m in Sources */,
 				27D9C62619A628FA00E15233 /* IWAViewController.m in Sources */,
 				27D9C62019A628FA00E15233 /* IWAAppDelegate.m in Sources */,
 				27515E9419AB7AC6004337DC /* IWAFilterViewController.m in Sources */,
+				2791BCA219AD02460019AFFD /* IWAChosenFilterViewController.m in Sources */,
 				27D9C61C19A628FA00E15233 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

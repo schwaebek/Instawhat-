@@ -7,8 +7,9 @@
 //
 
 #import "IWAFilterViewController.h"
+#import "IWAChosenFilterViewController.h"
 
-@interface IWAFilterViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface IWAFilterViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @end
 
@@ -17,6 +18,7 @@
     UIImageView * imageView;
     UICollectionView * filterCollection;
     NSArray * filters;
+    NSMutableDictionary * filteredImage;
 }
 
 - (instancetype)init
@@ -25,31 +27,33 @@
     if (self) {
         
         filters = @[
-                    @"CIColorCrossPolynomial",
-                    @"CIColorCube",
-                    @"CIColorCubeWithColorSpace",
+//                    @"CIColorCrossPolynomial",
+//                    @"CIColorCube",
+//                    @"CIColorCubeWithColorSpace",
                     @"CIColorInvert",
-                    @"CIColorMap",
+//                    @"CIColorMap",
                     @"CIColorMonochrome",
-                    @"CIColorPosterize",
-                    @"CIFalseColor",
-                    @"CIMaskToAlpha",
-                    @"CIMaximumComponent",
-                    @"CIMinimumComponent",
-                    @"CIPhotoEffectChrome",
-                    @"CIPhotoEffectFade",
-                    @"CIPhotoEffectInstant",
-                    @"CIPhotoEffectMono",
-                    @"CIPhotoEffectNoir",
-                    @"CIPhotoEffectProcess",
-                    @"CIPhotoEffectTonal",
-                    @"CIPhotoEffectTransfer",
+//                    @"CIColorPosterize",
+//                    @"CIFalseColor",
+//                    @"CIMaskToAlpha",
+//                    @"CIMaximumComponent",
+//                    @"CIMinimumComponent",
+//                    @"CIPhotoEffectChrome",
+//                    @"CIPhotoEffectFade",
+//                    @"CIPhotoEffectInstant",
+//                    @"CIPhotoEffectMono",
+//                    @"CIPhotoEffectNoir",
+//                    @"CIPhotoEffectProcess",
+//                    @"CIPhotoEffectTonal",
+//                    @"CIPhotoEffectTransfer",
                     @"CISepiaTone",
                     @"CIVignette",
                     @"CIVignetteEffect"
                     ];
         
         imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+    
         [self.view addSubview:imageView];
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
         layout.itemSize = CGSizeMake(100, 100);
@@ -58,6 +62,7 @@
         filterCollection.delegate = self;
         [filterCollection registerClass:[UICollectionViewCell class]forCellWithReuseIdentifier:@"cell"];
         [self.view addSubview:filterCollection];
+        filteredImage = [@{} mutableCopy];
     }
     return self;
 }
@@ -81,6 +86,7 @@
         UIImage * filterImage = [self filterImageWithFilterName:filterName];
         dispatch_async(dispatch_get_main_queue(), ^{
             filterView.image = filterImage;
+            [filteredImage setObject:filterImage forKey:[NSString stringWithFormat:@"%d", indexPath.item]];
         });
         
     });
@@ -114,7 +120,16 @@
     // init uiimage with cgimage
     return [UIImage imageWithCGImage:[ciContext createCGImage:ciResult fromRect:[ciResult extent]]];
 }
-
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self showFilterWithImage:filteredImage[[NSString stringWithFormat:@"%d", indexPath.item]]];
+}
+-(void)showFilterWithImage:(UIImage *)image
+{
+    IWAChosenFilterViewController * filteredVC1 = [[IWAChosenFilterViewController alloc]init];
+    filteredVC1.filteredImage = image;
+    [self.navigationController pushViewController:filteredVC1 animated:YES];
+}
 /*
 #pragma mark - Navigation
 
