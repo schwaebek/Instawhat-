@@ -7,66 +7,102 @@
 //
 
 #import "IWAChosenFilterViewController.h"
+#import <Parse/Parse.h> 
 
-@interface IWAChosenFilterViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+
+@interface IWAChosenFilterViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate>
 
 @end
 
 @implementation IWAChosenFilterViewController
 {
-    UITextField * postTextField;
-    UIImageView * imageView1;
+    UIView * captionHolder;
+    UIImageView * imageView;
+    UITextView * captionView;
 }
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        imageView1 = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH-20 , SCREEN_HEIGHT/2)];
-        imageView1.backgroundColor = [UIColor purpleColor];
-        [self.view addSubview:imageView1];
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, SCREEN_WIDTH-20 , SCREEN_HEIGHT/2)];
+        imageView.backgroundColor = [UIColor purpleColor];
     }
     return self;
 }
 - (void)viewDidLoad {
+
+     [super viewDidLoad];
+
+    
+   // self.view.backgroundColor = [UIColor lightGrayColor];
     
     UIView * masterView = [[ UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    masterView.backgroundColor = [UIColor whiteColor];
+    masterView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:masterView];
     
     
+    [self.view addSubview:imageView];
     
-    UIView * minorView = [[UIView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT/2, SCREEN_WIDTH -20, 100)];
-    minorView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:minorView];
+//    UIView * minorView = [[UIView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT/2, SCREEN_WIDTH -20, 300)];
+//    minorView.backgroundColor = [UIColor lightGrayColor];
+//    [self.view addSubview:minorView];
+//    
     
+    captionHolder = [[UIView alloc] initWithFrame:CGRectMake(20, (SCREEN_HEIGHT/2) + 10, SCREEN_WIDTH -40, 200)];
+    captionHolder.backgroundColor = [UIColor lightGrayColor];
+    captionHolder.layer.borderWidth = 10;
+    captionHolder.layer.borderColor = [UIColor whiteColor].CGColor;
+    [self.view addSubview:captionHolder];
     
-    postTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, (SCREEN_HEIGHT/2) + 10, SCREEN_WIDTH -40, 200)];
-    postTextField.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:postTextField];
+    captionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, captionHolder.frame.size.width, captionHolder.frame.size.height )];
     
-    UIButton * submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0,500, 320, 70)];
+    captionView.delegate = self;
+    
+    [captionHolder addSubview:captionView];
+    
+    UIButton * submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0,captionHolder.frame.size.height-70, 320, 70)];
     submitButton.backgroundColor = [UIColor orangeColor];
     [submitButton setTitle:@"SUBMIT" forState:UIControlStateNormal];
     [submitButton addTarget:self action:@selector(submitPost) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:submitButton];
-    [super viewDidLoad];
+    
+    [captionHolder addSubview:submitButton];
+   
     // Do any additional setup after loading the view.
-}
--(void) submitPost
-{
-    NSString * postInfo = [[NSString alloc] init];
-    /// if statement
+
+
+    // Dispose of any resources that can be recreated.
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+-(void) submitPost
+{
+    PFObject * face = [PFObject objectWithClassName:@"Faces"];
+    [face setObject:captionView.text forKey:@"text"];
+    NSData * data = UIImagePNGRepresentation(imageView.image);
+    PFFile * file = [PFFile fileWithData:data];
+    [face setObject:file forKey:@"image"];
+    [face saveInBackground];
+
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        captionHolder.center = CGPointMake(captionHolder.center.x, captionHolder.center.y -216);
+    }];
+    
 }
 -(void)setFilteredImage:(UIImage *)filteredImage
 {
     _filteredImage = filteredImage;
-    imageView1.image = filteredImage;
+    imageView.image = filteredImage;
+    
 }
-
 /*
 #pragma mark - Navigation
 

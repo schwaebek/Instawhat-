@@ -85,6 +85,7 @@
     UIImageView * thumbnailView = [[UIImageView alloc] initWithFrame:cell.bounds];
     thumbnailView.image = [UIImage imageWithCGImage:photo.thumbnail];
     [cell.contentView addSubview:thumbnailView];
+   
     
     return cell;
 }
@@ -93,6 +94,7 @@
 //    UIImageView * bigView = [[UIImageView alloc]initWithFrame:imagePicker.view.frame];
     ALAsset * photo = photos[indexPath.item];
     ALAssetRepresentation * representation = photo.defaultRepresentation;
+    
 //    bigView.image = [UIImage imageWithCGImage:representation.fullResolutionImage];
 //    [self.view addSubview:bigView];
     
