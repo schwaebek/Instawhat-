@@ -95,10 +95,7 @@
     ALAsset * photo = photos[indexPath.item];
     ALAssetRepresentation * representation = photo.defaultRepresentation;
     
-//    bigView.image = [UIImage imageWithCGImage:representation.fullResolutionImage];
-//    [self.view addSubview:bigView];
-    
-    // push viewcontroller
+
     [self showFilterWithImage:[UIImage imageWithCGImage:representation.fullResolutionImage]];
 }
 - (UIImage *)normalizedImage:(UIImage*)normalImage
@@ -110,16 +107,16 @@
     UIImage * normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    //photos.imageOrientation = [[UIImageOrientationUp alloc] init];
+    
     return normalizedImage;
 }
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage * fixedImage = [self normalizedImage:info[UIImagePickerControllerOriginalImage]];
-    
-//    UIImageView * imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-//    imageView.image= info [UIImagePickerControllerOriginalImage];
-//    [self.view addSubview:imageView];
     [self showFilterWithImage: fixedImage];
+    
+
 }
 - (void)viewWillAppear:(BOOL)animated
 {

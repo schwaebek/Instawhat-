@@ -72,6 +72,8 @@
     _originalImage = originalImage;
     
     imageView.image = originalImage;
+//    originalImage = [self normalizedImage:[UIImagePickerControllerOriginalImage]];
+//    [self showFilterWithImage: originalImage];
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -122,7 +124,27 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    UIImage * fixedImage = [self normalizedImage:UIImagePickerControllerOriginalImage];
+    [self showFilterWithImage: fixedImage];
     [self showFilterWithImage:filteredImage[[NSString stringWithFormat:@"%d", indexPath.item]]];
+//}
+//-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+//{
+//    UIImage * fixedImage = [self normalizedImage:info[UIImagePickerControllerOriginalImage]];
+//    [self showFilterWithImage: fixedImage];
+
+    
+}
+- (UIImage *)normalizedImage:(UIImage*)normalImage
+{
+    if (normalImage.imageOrientation == UIImageOrientationUp) return normalImage;
+    
+    UIGraphicsBeginImageContextWithOptions(normalImage.size, NO, normalImage.scale);
+    [normalImage drawInRect:(CGRect){0, 0, normalImage.size}];
+    UIImage * normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return normalizedImage;
 }
 -(void)showFilterWithImage:(UIImage *)image
 {

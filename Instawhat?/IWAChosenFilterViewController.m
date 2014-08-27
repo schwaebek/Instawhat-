@@ -46,12 +46,7 @@
     
     
     [self.view addSubview:imageView];
-    
-//    UIView * minorView = [[UIView alloc] initWithFrame:CGRectMake(10, SCREEN_HEIGHT/2, SCREEN_WIDTH -20, 300)];
-//    minorView.backgroundColor = [UIColor lightGrayColor];
-//    [self.view addSubview:minorView];
-//    
-    
+
     captionHolder = [[UIView alloc] initWithFrame:CGRectMake(20, (SCREEN_HEIGHT/2) + 10, SCREEN_WIDTH -40, 200)];
     captionHolder.backgroundColor = [UIColor lightGrayColor];
     captionHolder.layer.borderWidth = 10;
@@ -59,9 +54,7 @@
     [self.view addSubview:captionHolder];
     
     captionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, captionHolder.frame.size.width, captionHolder.frame.size.height )];
-    
     captionView.delegate = self;
-    
     [captionHolder addSubview:captionView];
     
     UIButton * submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0,captionHolder.frame.size.height-70, 320, 70)];
@@ -86,9 +79,15 @@
     NSData * data = UIImagePNGRepresentation(imageView.image);
     PFFile * file = [PFFile fileWithData:data];
     [face setObject:file forKey:@"image"];
-    [face saveInBackground];
-
+    [face saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:@"faceSaved" object:nil];
+    }];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    
+   
+
+  
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
